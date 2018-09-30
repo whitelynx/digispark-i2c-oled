@@ -475,7 +475,7 @@ void SSD1306_Mini::displayX(int off) {
       Wire.beginTransmission(SlaveAddress);
       Wire.send(GOFi2cOLED_Data_Mode);            // data mode
       for (uint8_t k=0;k<16;k++){
-        Wire.send(i*16 + k + off);
+        Wire.send(uint8_t(i*16 + k + off));
       }
       Wire.endTransmission();
     }
@@ -521,7 +521,7 @@ void SSD1306_Mini::printString( char * pText ){
 
 
 void SSD1306_Mini::drawImage(const unsigned char* img, unsigned char col, unsigned char row, unsigned char w, unsigned char h) {
-	unsigned int i, k, data;
+	uint8_t i, k, data;
 
 	clipArea(col, row, w, h);
 

@@ -25,6 +25,8 @@
 
 #include "SSD1306_minimal.h"
 
+#define SSD1306_HEIGHT 32
+
 // a 5x7 font table
 const unsigned char  BasicFont[] PROGMEM = {
   0x00, 0x00, 0x00, 0x00, 0x00,
@@ -323,7 +325,7 @@ void SSD1306_Mini::init(uint8_t address)
  sendCommand(GOFi2cOLED_Display_Off_Cmd);    /*display off*/
 
  sendCommand(Set_Multiplex_Ratio_Cmd);    /*multiplex ratio*/
- sendCommand(0x3F);    /*duty = 1/64*/
+ sendCommand(0x1F);    /*duty = 1/32*/
 
  sendCommand(Set_Display_Offset_Cmd);    /*set display offset*/
  sendCommand(0x00);
@@ -451,7 +453,7 @@ void SSD1306_Mini::clear() {
 
   clipArea(0, 0, 128, 8);
 
-    for (uint16_t i=0; i<=((128*64/8)/16); i++)
+    for (uint16_t i=0; i<=((128*SSD1306_HEIGHT/8)/16); i++)
     {
       // send a bunch of data in one xmission
       Wire.beginTransmission(SlaveAddress);
@@ -469,7 +471,7 @@ void SSD1306_Mini::displayX(int off) {
   sendCommand(0x10 | 0x0);  // hi col = 0
   sendCommand(0x40 | 0x0); // line #0
 
-    for (uint16_t i=0; i<=((128*64/8)/16); i++)
+    for (uint16_t i=0; i<=((128*SSD1306_HEIGHT/8)/16); i++)
     {
       // send a bunch of data in one xmission
       Wire.beginTransmission(SlaveAddress);
